@@ -1,6 +1,6 @@
 import { response } from 'express'
 import {pool} from '../database'
-
+const helpers = require('../libs/helpers');
 export const readAllUsers = async(req , res ) => {
     try {
         const response = await pool.query('select * from usuario');
@@ -54,8 +54,8 @@ export const updateUser = async(req, res)=>{
 export const createUser = async(req, res)=>{
     try {
         const{ idempleado ,username, password , idrol} = req.body;
-        
-        await pool.query('insert into usuario( idempleado, username, password, idrol , estado) values($1,$2, $3,$4, 1)', [idempleado ,username, password ,idrol]);
+        const password2 = await helpers.encryptPassword(password);
+        await pool.query('insert into usuario( idempleado, username, password, idrol , estado) values($1,$2, $3,$4, 1)', [idempleado ,username, password2 ,idrol]);
         return res.status(200).json(
             `El Usuario  ${ username } ha sido creado correctamente...!`);
     } catch (e) {
