@@ -1,6 +1,9 @@
 import express from 'express'
 import morgan from 'morgan'
+import usersRouters  from './routers/user.routers';
 
+import rolesRouters  from './routers/rol.routers';
+import empleadoRouters  from './routers/empleado.routers';
 const app = express();
 var cors = require('cors');
 app.use(express.json());
@@ -14,4 +17,7 @@ app.get('/' , function (req , res , next){
     res.send('Bienvenido a Node JS , Sistema de Ventas!..');
 });
 
+app.use('/api/auth/users' , usersRouters);
+app.use('/api/auth/roles' , rolesRouters);
+app.use('/api/auth/empleados' , empleadoRouters);
 export default app;
